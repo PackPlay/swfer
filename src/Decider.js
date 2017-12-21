@@ -41,7 +41,7 @@ class Decider extends events.EventEmitter {
         this.emit('poll');
     }
 
-    scheduleActivityTask(activityType, taskList, decisionTaskToken, input) {
+    scheduleActivityTask(activityType, taskList, input, decisionTaskToken) {
         let activityId = activityType + '-' + uuid.v4();
         let attributes = {
             activityType: activityType,
