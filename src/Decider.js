@@ -36,7 +36,7 @@ class Decider extends events.EventEmitter {
         let newEvents = this.getNewEventsForDecisionTask(decisionTask);
         for(let e in newEvents) {
             let eventType = newEvents[e].eventType;
-            this.emit(eventType, decisionTask);
+            this.emit(eventType, decisionTask, newEvents[e]);
         }
         this.emit('poll');
     }
