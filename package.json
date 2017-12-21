@@ -1,0 +1,23 @@
+{
+  "name": "swfer",
+  "version": "1.0.0",
+  "description": "Making swf simpler",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PackPlay/swfer.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PackPlay/swfer/issues"
+  },
+  "homepage": "https://github.com/PackPlay/swfer#readme",
+  "dependencies": {
+    "aws-sdk": "^2.173.0",
+    "node-uuid": "^1.4.8"
+  }
+}
