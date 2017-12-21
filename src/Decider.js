@@ -2,6 +2,14 @@ const events = require('events');
 const aws = require('aws-sdk');
 const uuid = require('node-uuid');
 
+function EventWrapper(event) {
+    event.getResult = function() {
+        return this.activityTaskCompletedEventAttributes.result;
+    };
+
+    return event;
+}
+
 class Decider extends events.EventEmitter {
     constructor(domain, taskList) {
         super();
@@ -36,7 +44,7 @@ class Decider extends events.EventEmitter {
         let newEvents = this.getNewEventsForDecisionTask(decisionTask);
         for(let e in newEvents) {
             let eventType = newEvents[e].eventType;
-            this.emit(eventType, decisionTask, newEvents[e]);
+            this.emit(eventType, decisionTask, EventWrapper(newEvents[e]));
         }
         this.emit('poll');
     }
