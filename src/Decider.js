@@ -50,9 +50,9 @@ class Decider extends events.EventEmitter {
     }
 
     scheduleActivityTask(activityType, taskList, input, decisionTaskToken) {
-        let activityId = activityType + '-' + uuid.v4();
+        let activityId = activityType.name + '-' + uuid.v4();
         let attributes = {
-            activityType: activityType,
+            activityType: _.pick(activityType, 'name', 'version'),
             activityId: activityId,
             taskList: {
                 name: taskList
