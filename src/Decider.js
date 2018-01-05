@@ -1,12 +1,26 @@
 const events = require('events');
 const aws = require('aws-sdk');
 const uuid = require('node-uuid');
+const _ = require('lodash');
 
-function EventWrapper(event) {
+function EventWrapper(event, events) {
+    // get attribute
     event._attributeName = this.eventType[0].toLowerCase() + this.eventType.substring(1) + 'Attributes';
+
     event.getAttributes = function() {
         return this[this._attributeName];
     };
+
+
+    // get activity
+    event._activity = _.find(events, function(o) {
+        return o.eventId === event.getAttributes().scheduledEventId;
+    });
+    
+    event.getActivity = function() {
+        return event._activity; 
+    }
+
     return event;
 }
 
@@ -44,13 +58,13 @@ class Decider extends events.EventEmitter {
         let newEvents = this.getNewEventsForDecisionTask(decisionTask);
         for(let e in newEvents) {
             let eventType = newEvents[e].eventType;
-            this.emit(eventType, decisionTask, EventWrapper(newEvents[e]));
+            this.emit(eventType, decisionTask, EventWrapper(newEvents[e], decisionTask.events));
         }
         this.emit('poll');
     }
 
     scheduleActivityTask(activityType, taskList, input, decisionTaskToken) {
-        let activityId = activityType.name + '-' + uuid.v4();
+        let activityId = activityType.name + '-' + activityType.version + '-' + uuid.v4();
         let attributes = {
             activityType: _.pick(activityType, 'name', 'version'),
             activityId: activityId,
