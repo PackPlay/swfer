@@ -19,7 +19,14 @@ function EventWrapper(event, events) {
     
     event.getActivity = function() {
         return event._activity; 
-    }
+    };
+    
+    event.isActivity = function(activity) {
+        if(event._activity) {
+            return event._activity.name === activity.name && event._activity.version === activity.version; 
+        }
+        return false;
+    };
 
     return event;
 }
