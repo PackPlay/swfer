@@ -3,10 +3,10 @@ const aws = require('aws-sdk');
 const uuid = require('node-uuid');
 
 function EventWrapper(event) {
-    event.getResult = function() {
-        return this.activityTaskCompletedEventAttributes.result;
+    event._attributeName = this.eventType[0].toLowerCase() + this.eventType.substring(1) + 'Attributes';
+    event.getAttributes = function() {
+        return this[this._attributeName];
     };
-
     return event;
 }
 
@@ -74,6 +74,27 @@ class Decider extends events.EventEmitter {
                 console.log("Successfully scheduled activity task: " + data);
               }
         })
+    }
+
+    failWorkflowExecution(reason, detail, decisionTaskToken) {
+        let decisions = [{
+            decisionType: 'FailWorkflowExecution',
+            failWorkflowExecutionDecisionAttributes: {
+                reason: reason,
+                detail: detail
+            }
+        }];
+        let parameters = {
+            taskToken: decisionTaskToken,
+            decisions: decisions
+        };
+        this.client.respondDecisionTaskCompleted(parameters, (err, data) => {
+            if(err) {
+                console.error("Error completing workflow:", err);
+              } else {
+                console.log("Successfully completing workflow:",data);
+              }
+        });
     }
 
     completeWorkflowExecution(result, decisionTaskToken) {
