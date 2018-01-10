@@ -1,8 +1,9 @@
-const AWS = require('aws-sdk');
+const aws = require('aws-sdk');
 module.exports = {
     config: function(config) {
-        AWS.config.update(config);
+        aws.config.update(config);
     },
     Activity: require('./src/Activity'),
-    Decider: require('./src/Decider')
+    Decider: require('./src/Decider'),
+    Workflow: require('./src/Workflow')
 };
