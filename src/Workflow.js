@@ -19,7 +19,7 @@ class Workflow {
     }
 
     start(input) {
-        this.client.startWorkflowExecution({
+        return this.client.startWorkflowExecution({
             domain: this.domain,
             workflowId: uuid.v4(),
             workflowType: this.workflowType,
@@ -27,7 +27,7 @@ class Workflow {
                 name: this.taskList
             },
             input: (_.isUndefined(input) || _.isString(input)) ? input : JSON.stringify(input)
-        })
+        });
     }
 }
 
