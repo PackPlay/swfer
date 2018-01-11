@@ -78,7 +78,11 @@ class Decider extends events.EventEmitter {
             taskList: {
                 name: taskList
             },
-            input: input
+            input: input,
+            scheduleToCloseTimeout: 'NONE',
+            scheduleToStartTimeout: 'NONE',
+            startToCloseTimeout: 'NONE',
+            heartbeatTimeout: 'NONE'
         };
         let decisions = [{
             decisionType: 'ScheduleActivityTask',
@@ -90,9 +94,9 @@ class Decider extends events.EventEmitter {
         };
         this.client.respondDecisionTaskCompleted(parameters, (err, data) => {
             if(err) {
-                console.error("Error scheduling activity task: " + err);
+                console.error("Error scheduling activity task: ", err);
               } else {
-                console.log("Successfully scheduled activity task: " + data);
+                console.log("Successfully scheduled activity task: ", data);
               }
         })
     }
