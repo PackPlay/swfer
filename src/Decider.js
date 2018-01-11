@@ -5,7 +5,7 @@ const _ = require('lodash');
 
 function EventWrapper(event, events) {
     // get attribute
-    event._attributeName = this.eventType[0].toLowerCase() + this.eventType.substring(1) + 'Attributes';
+    event._attributeName = this.eventType[0].toLowerCase() + this.eventType.substring(1) + 'EventAttributes';
 
     event.getAttributes = function() {
         return this[this._attributeName];
