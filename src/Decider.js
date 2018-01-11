@@ -5,7 +5,7 @@ const _ = require('lodash');
 
 function EventWrapper(event, events) {
     // get attribute
-    event._attributeName = this.eventType[0].toLowerCase() + this.eventType.substring(1) + 'EventAttributes';
+    event._attributeName = event.eventType[0].toLowerCase() + event.eventType.substring(1) + 'EventAttributes';
 
     event.getAttributes = function() {
         return this[this._attributeName];
@@ -18,12 +18,12 @@ function EventWrapper(event, events) {
     });
     
     event.getActivity = function() {
-        return event._activity; 
+        return this._activity; 
     };
     
     event.isActivity = function(activity) {
-        if(event._activity) {
-            return event._activity.name === activity.name && event._activity.version === activity.version; 
+        if(this._activity) {
+            return this._activity.name === activity.name && this._activity.version === activity.version; 
         }
         return false;
     };
