@@ -19,14 +19,21 @@ class Workflow {
     }
 
     start(input) {
-        return this.client.startWorkflowExecution({
-            domain: this.domain,
-            workflowId: uuid.v4(),
-            workflowType: this.workflowType,
-            taskList: {
-                name: this.taskList
-            },
-            input: (_.isUndefined(input) || _.isString(input)) ? input : JSON.stringify(input)
+        return new Promise( (resolve, reject) => {
+            this.client.startWorkflowExecution({
+                domain: this.domain,
+                workflowId: uuid.v4(),
+                workflowType: this.workflowType,
+                taskList: {
+                    name: this.taskList
+                },
+                input: (_.isUndefined(input) || _.isString(input)) ? input : JSON.stringify(input)
+            }, (err, data) => {
+                if(err) {
+                    return reject(err);
+                }
+                resolve(data);
+            });
         });
     }
 }
