@@ -53,7 +53,7 @@ decider.start();
 
 ## Template - Activity
 ```js
-    const Activity = require('swfer');
+    const Activity = require('swfer').Activity;
     const activity = new Activity(process.env.SWF_DOMAIN, process.env.SWF_TASKLIST);
     
     activity.on('ActivityTask', activityTask => {
