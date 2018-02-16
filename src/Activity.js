@@ -38,7 +38,13 @@ class Activity extends events.EventEmitter {
     }
 
     fail(reason, description, activityTaskToken) {
-        this.client.respondActivityTaskFailed({taskToken: activityTaskToken, reason: reason, details: description});
+        this.client.respondActivityTaskFailed({taskToken: activityTaskToken, reason: reason, details: description}, (err, data) => {
+            if(err) {
+                console.error(err);
+            } else {
+                console.log('Failure Report Completed', data);
+            }
+        });
     }
     
     complete(result, activityTaskToken) {
