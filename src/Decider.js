@@ -101,12 +101,12 @@ class Decider extends events.EventEmitter {
         })
     }
 
-    failWorkflowExecution(reason, detail, decisionTaskToken) {
+    failWorkflowExecution(reason, details, decisionTaskToken) {
         let decisions = [{
             decisionType: 'FailWorkflowExecution',
             failWorkflowExecutionDecisionAttributes: {
                 reason: reason,
-                detail: detail
+                details: details
             }
         }];
         let parameters = {
