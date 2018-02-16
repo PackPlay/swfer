@@ -23,6 +23,9 @@ function EventWrapper(event, events) {
     
     event.isActivity = function(activity) {
         if(this._activity) {
+            if(_.isString(activity)) { //lazy check
+                return this._activity.name === activity;
+            } 
             return this._activity.name === activity.name && this._activity.version === activity.version; 
         }
         return false;
