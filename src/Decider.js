@@ -11,22 +11,21 @@ function EventWrapper(event, events) {
         return this[this._attributeName];
     };
 
-
     // get activity
-    event._activity = _.find(events, function(o) {
+    event._scheduledEvent = _.find(events, function(o) {
         return o.eventId === event.getAttributes().scheduledEventId;
     });
     
     event.getActivity = function() {
-        return this._activity; 
+        return event._scheduledEvent['activityTaskScheduledEventAttributes'].activityType; 
     };
     
     event.isActivity = function(activity) {
-        if(this._activity) {
+        if(this.getActivity()) {
             if(_.isString(activity)) { //lazy check
-                return this._activity.name === activity;
+                return this.getActivity().name === activity;
             } 
-            return this._activity.name === activity.name && this._activity.version === activity.version; 
+            return this.getActivity().name === activity.name && this.getActivity().version === activity.version; 
         }
         return false;
     };
