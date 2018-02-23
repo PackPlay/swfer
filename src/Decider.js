@@ -128,7 +128,7 @@ class Decider extends events.EventEmitter {
         let decisions = [{
             decisionType: 'CompleteWorkflowExecution',
             completeWorkflowExecutionDecisionAttributes: {
-                result: 'success'
+                result: success
             }
         }];
         let parameters = {
