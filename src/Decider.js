@@ -71,8 +71,9 @@ class Decider extends events.EventEmitter {
         }
         this.emit('poll');
     }
-
-    scheduleActivityTask(activityType, taskList, input, decisionTaskToken) {
+    
+    // control is optional
+    scheduleActivityTask(activityType, taskList, input, control, decisionTaskToken) {
         let activityId = activityType.name + '-' + activityType.version + '-' + uuid.v4();
         let attributes = {
             activityType: _.pick(activityType, 'name', 'version'),
@@ -84,8 +85,13 @@ class Decider extends events.EventEmitter {
             scheduleToCloseTimeout: 'NONE',
             scheduleToStartTimeout: 'NONE',
             startToCloseTimeout: 'NONE',
-            heartbeatTimeout: 'NONE'
+            heartbeatTimeout: 'NONE',
         };
+
+        if(control) {
+            attributes.control = control;
+        }
+
         let decisions = [{
             decisionType: 'ScheduleActivityTask',
             scheduleActivityTaskDecisionAttributes: attributes
