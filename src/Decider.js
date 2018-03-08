@@ -86,11 +86,8 @@ class Decider extends events.EventEmitter {
             scheduleToStartTimeout: 'NONE',
             startToCloseTimeout: 'NONE',
             heartbeatTimeout: 'NONE',
+            control: control || undefined
         };
-
-        if(control) {
-            attributes.control = control;
-        }
 
         let decisions = [{
             decisionType: 'ScheduleActivityTask',
