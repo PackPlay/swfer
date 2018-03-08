@@ -24,6 +24,9 @@ function EventWrapper(event, events) {
         return this._scheduledEvent['activityTaskScheduledEventAttributes'].activityType; 
     };
     
+    event.isWorkflow = function(workflow) {
+        return this.getWorkflow().name === workflow;
+    };
     event.isActivity = function(activity) {
         if(this.getActivity()) {
             if(_.isString(activity)) { //lazy check
