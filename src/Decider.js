@@ -6,7 +6,7 @@ const _ = require('lodash');
 function EventWrapper(event, events) {
     // get attribute
     event._attributeName = event.eventType[0].toLowerCase() + event.eventType.substring(1) + 'EventAttributes';
-
+    // console.log(events);
     event.getAttributes = function() {
         return this[this._attributeName];
     };
@@ -15,9 +15,13 @@ function EventWrapper(event, events) {
     event._scheduledEvent = _.find(events, function(o) {
         return o.eventId === event.getAttributes().scheduledEventId;
     });
-    
+    event._workflowStartedEvent = events[0]; // always 0th?
+
+    event.getWorkflow = function() {
+        return this._workflowStartedEvent['workflowExecutionStartedEventAttributes'].workflowType;
+    };
     event.getActivity = function() {
-        return event._scheduledEvent['activityTaskScheduledEventAttributes'].activityType; 
+        return this._scheduledEvent['activityTaskScheduledEventAttributes'].activityType; 
     };
     
     event.isActivity = function(activity) {
@@ -29,6 +33,7 @@ function EventWrapper(event, events) {
         }
         return false;
     };
+    event.events = events; // for debug
 
     return event;
 }
