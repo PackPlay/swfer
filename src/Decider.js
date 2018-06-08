@@ -23,6 +23,10 @@ function EventWrapper(event, events) {
     event.getActivity = function() {
         return this._scheduledEvent['activityTaskScheduledEventAttributes'].activityType; 
     };
+
+    event.getControl = function() {
+        return this._scheduledEvent['activityTaskScheduledEventAttributes'].control;
+    }
     
     event.isWorkflow = function(workflow) {
         return this.getWorkflow().name === workflow;
@@ -81,7 +85,7 @@ class Decider extends events.EventEmitter {
     }
     
     // control is optional
-    scheduleActivityTask(activityType, taskList, input, decisionTaskToken) {
+    scheduleActivityTask(activityType, taskList, input, control, decisionTaskToken) {
         let activityId = activityType.name + '-' + activityType.version + '-' + uuid.v4();
         let attributes = {
             activityType: _.pick(activityType, 'name', 'version'),
@@ -90,6 +94,7 @@ class Decider extends events.EventEmitter {
                 name: taskList
             },
             input: input,
+            control: control,
             scheduleToCloseTimeout: 'NONE',
             scheduleToStartTimeout: 'NONE',
             startToCloseTimeout: 'NONE',
